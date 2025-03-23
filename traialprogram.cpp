@@ -1,38 +1,68 @@
 #include <iostream>
 #include <string>
 
-class Engine {
+// Base class
+class Employee {
 protected:
-    int horsepower;
+    std::string name;
+    int id;
 public:
-    Engine(int hp) : horsepower(hp) {}
-    virtual void showSpecs() {
-        std::cout << "Horsepower: " << horsepower << std::endl;
+    Employee(std::string n, int i) : name(n), id(i) {}
+    virtual void display() {
+        std::cout << "Name: " << name << "\nID: " << id << std::endl;
     }
 };
 
-class Vehicle {
-protected:
-    std::string brand;
+// Derived class 1
+class Manager : public Employee {
+private:
+    std::string department;
 public:
-    Vehicle(std::string b) : brand(b) {}
-    virtual void showDetails() {
-        std::cout << "Brand: " << brand << std::endl;
+    Manager(std::string n, int i, std::string dept) 
+        : Employee(n, i), department(dept) {}
+    void display() override {
+        Employee::display();
+        std::cout << "Department: " << department << std::endl;
     }
 };
 
-// Multiple inheritance
-class Car : public Vehicle, public Engine {
+// Derived class 2
+class Developer : public Employee {
+private:
+    std::string programmingLanguage;
 public:
-    Car(std::string b, int hp) : Vehicle(b), Engine(hp) {}
-    void display() {
-        showDetails();
-        showSpecs();
+    Developer(std::string n, int i, std::string lang) 
+        : Employee(n, i), programmingLanguage(lang) {}
+    void display() override {
+        Employee::display();
+        std::cout << "Programming Language: " << programmingLanguage << std::endl;
+    }
+};
+
+// Derived class 3
+class Designer : public Employee {
+private:
+    std::string designTool;
+public:
+    Designer(std::string n, int i, std::string tool) 
+        : Employee(n, i), designTool(tool) {}
+    void display() override {
+        Employee::display();
+        std::cout << "Design Tool: " << designTool << std::endl;
     }
 };
 
 int main() {
-    Car car("Toyota", 200);
-    car.display();
+    Manager mgr("John Doe", 101, "Engineering");
+    Developer dev("Jane Smith", 102, "C++");
+    Designer designer("Bob Wilson", 103, "Figma");
+
+    std::cout << "Manager Details:\n";
+    mgr.display();
+    std::cout << "\nDeveloper Details:\n";
+    dev.display();
+    std::cout << "\nDesigner Details:\n";
+    designer.display();
+
     return 0;
 }
